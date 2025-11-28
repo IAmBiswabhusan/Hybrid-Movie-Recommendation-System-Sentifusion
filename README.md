@@ -1,197 +1,219 @@
-📽️ Hybrid Movie Recommendation System — Sentifusion
-👤 By: Biswabhusan Mohapatra
-⭐ Executive Summary
+# Hybrid Movie Recommendation System — Sentifusion
+### By **Biswabhusan Mohapatra**
 
-Sentifusion is a Hybrid Movie Recommendation System combining:
+---
 
-Content-Based Filtering
+## 1. Overview
+**Sentifusion** is a Hybrid Movie Recommendation System combining:
 
-User-Based Collaborative Filtering
+- **Content-Based Filtering**
+- **User-Based Collaborative Filtering**
+- **Sentiment Analysis on Movie Metadata**
+- **Hybrid Weighted Scoring**
 
-Sentiment Analysis
+The system uses metadata from **TMDB**, ratings from **MovieLens**, and emotional tone extracted from text features to generate highly personalized recommendations.  
+A complete **Flask-based Web Application** is also included.
 
-Hybrid Weighted Ranking
+---
 
-Using MovieLens, TMDB, and IMDb datasets, the system predicts a ranked list of movies that the user is likely to enjoy.
-A fully functional Flask Web App is also included.
+## 2. Problem Statement
+Can we generate a *ranked list* of movie recommendations for a user using:
 
-🎯 Problem Statement
+- Movie features (overview, tagline, cast, keywords)
+- User–movie interactions
+- Sentiment analysis  
+- Hybrid ML techniques
 
-Can we predict personalized movie recommendations using metadata + user behavior?
+Sentifusion answers this question with a combined scoring approach.
 
-Yes — Sentifusion generates personalized, ranked recommendations using hybrid ML techniques.
+---
 
-📁 Data Sources
-1️⃣ MovieLens Dataset
+## 3. Data Sources
 
-Used for:
+### **• MovieLens Dataset**
+Contains user ratings and is used for collaborative filtering.
 
-User ratings
+### **• TMDB Metadata**
+Includes:
+- Overview  
+- Tagline  
+- Keywords  
+- Genres  
+- Director  
+- Cast  
 
-Collaborative filtering
+Used for text processing and TF-IDF modeling.
 
-2️⃣ TMDB Dataset
+### **• Sentiment Scores**
+Calculated from:
+- Overview  
+- Tagline  
+- Keywords  
 
-Used for metadata:
+Used to enhance similarity metrics.
 
-Genre
+> **Note:** Large CSV files are not stored on GitHub due to the 100MB limit.
 
-Overview
+---
 
-Tagline
+## 4. Exploratory Data Analysis
 
-Keywords
+Visualizations available in the repository:
 
-Director, Cast
+- Ratings Distribution  
+- Average Rating per Movie  
+- Genre Popularity  
+- Genre-based Rating Comparison  
+- Ratings per Movie  
 
-3️⃣ Sentiment Analysis
+(Images stored under `images/` directory)
 
-Used for:
+---
 
-Generating sentiment_score from overview + keywords + tagline
+## 5. Approach
 
-⚠ Note: Large CSV files (>100 MB) are not included in the GitHub repository.
+### **5.1 Popularity-Based Recommender**
+A baseline model ranking movies by their overall popularity.
 
-📊 Exploratory Data Analysis (EDA)
+---
 
-
-
-
-
-
-🧠 Approach (Hybrid Modeling)
-1️⃣ Popularity-Based Recommender
-
-Simple baseline based on globally popular movies.
-
-2️⃣ Content-Based Filtering
-
+### **5.2 Content-Based Filtering**
 Uses:
 
-TF-IDF Vectorization
+- **TF-IDF Vectorization**
+- **Cosine Similarity**
+- **Sentiment Polarity**
+- Combined metadata features:
+  - overview, tagline, keywords  
+  - director  
+  - cast  
 
-Cosine Similarity
+Strengths:
+- Works for new users  
+- Does not require other users’ ratings  
 
-Sentiment Scores
+Limitations:
+- Less diverse recommendations  
+- Dependent on metadata quality  
 
-Features: overview, tagline, keywords, cast, director
+---
 
-Pros: Works for new users
-Cons: Limited diversity
-
-3️⃣ User-Based Collaborative Filtering
+### **5.3 Collaborative Filtering (User–User)**
 
 Steps:
+1. Build user–movie matrix  
+2. Compute similarity between users  
+3. Predict scores for unseen movies  
+4. Recommend movies with highest predicted ratings  
 
-Build user–movie matrix
+Strengths:
+- Better diversity  
+- Learns from community preferences  
 
-Compute user-user cosine similarity
+Limitations:
+- Cold-start issue  
+- Sparse matrices  
 
-Predict unrated scores
+---
 
-Pros: Good diversity
-Cons: Cold start problem
-
-4️⃣ Hybrid Recommender (Sentifusion)
+### **5.4 Hybrid Model (Sentifusion)**
 
 Final score:
 
-Hybrid Score = (Content Score + Collaborative Score) / 2
+```
+Hybrid Score = (Content-Based Score + Collaborative Score) / 2
+```
 
+Advantages:
+- Reduces cold-start  
+- Balances relevance + diversity  
+- Produces more stable recommendations  
 
-Benefits:
+---
 
-Tackles cold start
+## 6. Workflow
 
-Better diversity
+1. Data Cleaning & Integration  
+2. EDA & Visualization  
+3. Feature Engineering  
+4. Natural Language Processing  
+5. Content-Based Model  
+6. Collaborative Filtering  
+7. Hybrid Recommender  
+8. Flask Web Application  
 
-More accurate & stable
+---
 
-📦 Workflow
+## 7. Data Dictionary
 
-Data Cleaning
+| Feature | File | Type | Description |
+|--------|------|------|-------------|
+| movie_id | content.csv | int | Unique MovieLens movie ID |
+| title | content.csv | object | Movie title |
+| overview | content.csv | object | Plot summary |
+| tagline | content.csv | object | Movie tagline |
+| keywords | content.csv | object | Plot keywords |
+| director | content.csv | object | Director name |
+| cast | content.csv | object | Top 4 cast |
+| sentiment_score | content.csv | float | Polarity score |
+| user_id | ratings_title.csv | int | MovieLens user ID |
+| rating | ratings_title.csv | float | Rating (0.5–5) |
 
-EDA & Visualization
+---
 
-Feature Engineering
+## 8. Conclusion
 
-NLP (TF-IDF + Sentiment)
+Sentifusion integrates:
 
-Content-Based Model
+- **Content-Based Filtering** for metadata similarity  
+- **Collaborative Filtering** for user preference learning  
+- **Hybrid Ensemble** for best overall performance  
 
-Collaborative Filtering Model
+This results in:
+- Higher accuracy  
+- Better diversity  
+- Improved personalization  
 
-Hybrid Model
+Future work:
+- Matrix factorization (SVD / SVD++)  
+- Real-world A/B testing  
+- Neural recommendation models  
 
-Flask App Implementation
+---
 
-📚 Data Dictionary
-Feature	File	Type	Description
-movie_id	content.csv	int	MovieLens ID
-title	content.csv	object	Movie title
-genres	content.csv	object	Genres
-overview	content.csv	object	Movie summary
-keywords	content.csv	object	Plot keywords
-director	content.csv	object	Director
-cast	content.csv	object	Cast members
-sentiment_score	content.csv	float	Polarity score
-user_id	ratings_title.csv	int	User ID
-rating	ratings_title.csv	float	Rating (0.5–5)
-🏁 Conclusion
-✔ Content-Based Filtering
+## 9. Technologies Used
 
-Great for metadata-driven suggestions.
+**Languages**
+- Python  
+- HTML, CSS, JavaScript  
 
-✔ Collaborative Filtering
+**ML & NLP**
+- scikit-learn  
+- pandas, numpy  
+- TextBlob / VADER  
+- TF-IDF Vectorizer  
+- Cosine Similarity  
 
-Captures behavioral patterns.
+**Visualization**
+- matplotlib  
+- seaborn  
 
-✔ Hybrid Model
+**Web App**
+- Streamlit  
 
-Best overall performance
-Better accuracy, diversity, and personalization.
+---
 
-⚠ Limitations
+## 10. Project Structure
 
-Assumes users only watched rated movies
-
-Large-scale CF can be slow
-
-Metadata files are too large for GitHub
-
-🔧 Tools & Technologies
-
-Languages:
-
-Python
-
-HTML/CSS/JS
-
-ML & NLP:
-
-Scikit-learn
-
-TF-IDF
-
-Sentiment Analysis
-
-Cosine Similarity
-
-Visualization:
-
-Matplotlib
-
-Seaborn
-
-Web App:
-
-Flask
-
-📂 Recommended Project Structure
+```
 Hybrid-Movie-Recommender/
 │── code/
 │── recommender_app/
 │── images/
-│── data/  (ignored due to size)
-│── requirements.txt
+│── data/  (ignored due to large size)
 │── README.md
+│── requirements.txt
+```
+
+---
+
